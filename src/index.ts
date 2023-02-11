@@ -62,10 +62,19 @@ export default class Microservice {
   }
 
   /**
+   * @returns The Express application on which
+   * the microservice is hosted for perhaps adding
+   * or modifying certain middleware.
+   */
+  public getApplication(): express.Application {
+    return this.app;
+  }
+
+  /**
    * @param name The name of the route for e.g. `/api`
    * @param router The router holding the endpoints.
    */
-  public addEndpoint(name: string, router: express.Router) {
+  public setRoot(name: string, router: express.Router) {
     this.app.use(name, router);
   }
 }
