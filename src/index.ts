@@ -4,7 +4,7 @@ import { Connection, createConnection } from 'mysql';
 
 let connection: undefined | Connection;
 
-export function host(port: number, options: DatabaseOptions, callback?: () => {}) {
+export function host(port: number, options: DatabaseOptions, callback?: () => void) {
   /**
    * Create a new MySQL connection.
    */
