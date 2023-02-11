@@ -6,7 +6,7 @@ import helmet from 'helmet';
  * @class Microservice
  * The Microservice class.
  */
-export class Microservice {
+export default class Microservice {
   /**
    * Final variables in the class.
    */
@@ -29,33 +29,29 @@ export class Microservice {
    * @returns A new instance of the Microservice class.
    */
   static host(port: number, options: DatabaseOptions) {
-    try {
-      /**
-       * Create a new MySQL connection.
-       */
-      const connection = createConnection(options);
-      connection.connect();
+    /**
+     * Create a new MySQL connection.
+     */
+    const connection = createConnection(options);
+    connection.connect();
 
-      /**
-       * Create app and point routes.
-       */
-      const app = express();
-      app.use(express.json());
-      app.use(express.urlencoded({ extended: true }));
-      app.use(helmet({ contentSecurityPolicy: false }));
+    /**
+     * Create app and point routes.
+     */
+    const app = express();
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(helmet({ contentSecurityPolicy: false }));
 
-      /**
-       * Listen server on specified port.
-       */
-      app.listen(port, () => console.log(`Microservice running on port ${port}`));
+    /**
+     * Listen server on specified port.
+     */
+    app.listen(port, () => console.log(`Microservice running on port ${port}`));
 
-      /**
-       * Return a new Microservice object.
-       */
-      return new Microservice(connection, app);
-    } catch (exception) {
-      console.error(exception);
-    }
+    /**
+     * Return a new Microservice object.
+     */
+    return new Microservice(connection, app);
   }
 
   /**
