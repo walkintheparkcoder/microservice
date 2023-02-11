@@ -25,7 +25,7 @@ service.get('/friend_add', (req, res) => {
    * The UUID of the player gets passed through
    * the query because this is a GET request.
    */
-  const { uuid } = req.query;
+  // const { uuid } = req.query;
 
   /**
    * This data should obviously be requested from

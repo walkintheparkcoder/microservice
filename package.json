@@ -1,15 +1,24 @@
 {
   "name": "microservice",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.ts",
+  "description": "The library for powering the Microservice API for your Minecraft server.",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "build": "tsc build",
-    "start": "node ."
+    "build": "rmdir /s /q dist && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc",
+    "build:cjs": "tsc --module CommonJS --outDir dist/cjs"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "spigotmc",
+    "microservice",
+    "api"
+  ],
+  "author": "walkinthepark",
   "license": "MIT",
   "devDependencies": {
     "@types/express": "^4.17.17",
