@@ -2,37 +2,37 @@ import express from 'express';
 import helmet from 'helmet';
 import { Connection, createConnection } from 'mysql';
 
-let connection: undefined | Connection;
-
-export function host(port: number, options: DatabaseOptions, callback?: () => void) {
-  /**
-   * Create a new MySQL connection.
-   */
-  connection = createConnection(options);
-
-  /**
-   * Create app and point routes.
-   */
-  const app = express();
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-  app.use(helmet({ contentSecurityPolicy: false }));
-
-  /**
-   * Listen server on specified port.
-   */
-  return app.listen(port) && callback;
-}
-
-export function getConnection(): Connection {
-  if (!connection) throw Error('Please establish a connection with MySQL first.');
-
-  return connection;
-}
-
-export interface DatabaseOptions {
+interface DatabaseOptions {
   host: string;
   user: string;
   password: string;
   database: string;
+}
+
+export class Microservice {
+  private connection: Connection;
+  private app: express.Application;
+
+  constructor(port: number, options: DatabaseOptions) {
+    this.connection = createConnection(options);
+
+    this.app = express();
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(helmet({ contentSecurityPolicy: false }));
+
+    this.app.listen(port, () => console.log(`Microservice running on port ${port}`));
+  }
+
+  public getConnection(): Connection {
+    if (!this.app) throw Error('Please host a microservice first.');
+    if (!this.connection)
+      throw Error('Could not establish a connection with MySQL, please check your credentials.');
+
+    return this.connection;
+  }
+
+  public addEndpoint(name: string, router: express.Router) {
+    this.app.use(name, router);
+  }
 }
