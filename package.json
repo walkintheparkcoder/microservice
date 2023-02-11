@@ -4,7 +4,8 @@
     "type": "git",
     "url": "https://github.com/walkintheparkcoder/microservice.git"
   },
-  "version": "1.0.0",
+  "homepage": "https://walkinthepark.gitbook.io/microservice-api/",
+  "version": "1.0.2",
   "description": "The library for powering the Microservice API for your Minecraft server.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -29,7 +30,7 @@
     "@types/mysql": "^2.15.21",
     "@types/node": "^18.11.19"
   },
-  "peerDependencies": {
+  "dependencies": {
     "express": "^4.18.2",
     "helmet": "^6.0.1",
     "mysql": "^2.18.1"

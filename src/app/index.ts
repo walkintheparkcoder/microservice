@@ -1,5 +1,4 @@
 import express from 'express';
-import apiRouter from '../routes';
 import { createConnection } from 'mysql';
 
 /**
@@ -18,7 +17,6 @@ connection.connect();
  * Create app and point routes.
  */
 const app = express();
-app.use('/api', apiRouter);
 
 /**
  * Listen server on for eg. :8080
