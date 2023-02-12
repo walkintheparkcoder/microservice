@@ -5,7 +5,7 @@
     "url": "https://github.com/walkintheparkcoder/microservice.git"
   },
   "homepage": "https://walkinthepark.gitbook.io/microservice-api/",
-  "version": "1.1.2",
+  "version": "1.2.1",
   "description": "The library for powering the Microservice API for your Minecraft server.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -23,7 +23,11 @@
     "microservice",
     "api"
   ],
-  "author": "walkinthepark",
+  "author": {
+    "name": "walkinthepark",
+    "email": "walkintheparkcoder@gmail.com",
+    "url": "https://github.com/walkintheparkcoder"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/express": "^4.17.17",

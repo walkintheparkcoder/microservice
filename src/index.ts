@@ -1,4 +1,3 @@
-import { Connection, createConnection } from 'mysql';
 import express from 'express';
 import helmet from 'helmet';
 
@@ -10,7 +9,6 @@ export default class Microservice {
   /**
    * Final variables in the class.
    */
-  private connection: Connection;
   private app: express.Application;
 
   /**
@@ -18,8 +16,7 @@ export default class Microservice {
    * @param connection The MySQL connection.
    * @param app The Express application.
    */
-  constructor(connection: Connection, app: express.Application) {
-    this.connection = connection;
+  constructor(app: express.Application) {
     this.app = app;
   }
 
@@ -28,13 +25,7 @@ export default class Microservice {
    * @param options The credentials for the database.
    * @returns A new instance of the Microservice class.
    */
-  static host(port: number, options: DatabaseOptions) {
-    /**
-     * Create a new MySQL connection.
-     */
-    const connection = createConnection(options);
-    connection.connect();
-
+  static host(port: number) {
     /**
      * Create app and point routes.
      */
@@ -51,19 +42,19 @@ export default class Microservice {
     /**
      * Return a new Microservice object.
      */
-    return new Microservice(connection, app);
+    return new Microservice(app);
   }
 
   /**
-   * @returns The current MySQL connection.
+   * @returns A new Express router for the defining route.
    */
-  public getConnection(): Connection {
-    return this.connection;
+  static Router(): express.Router {
+    return express.Router();
   }
 
   /**
-   * @returns The Express application on which
-   * the microservice is hosted for perhaps adding
+   * @returns The Express application on which the
+   * microservice is hosted for perhaps adding
    * or modifying certain middleware.
    */
   public getApplication(): express.Application {
@@ -74,18 +65,39 @@ export default class Microservice {
    * @param name The name of the route for e.g. `/api`
    * @param router The router holding the endpoints.
    */
-  public setRoot(name: string, router: express.Router) {
+  public setDefiningRoute(name: string, router: express.Router) {
     this.app.use(name, router);
   }
 }
 
-/**
- * @interface DatabaseOptions
- * Interface which holds the login credentials.
- */
-interface DatabaseOptions {
-  host: string;
-  user: string;
-  password: string;
-  database: string;
+export class Router {
+  private router: express.Router;
+
+  constructor() {
+    this.router = express.Router();
+  }
+
+  public register() {
+    return this.router;
+  }
+
+  public use(name: string, router: Router) {
+    this.router.use(name, router.register());
+  }
+
+  public get(name: string, fn: (query?: any) => any) {
+    this.router.get(name, async (req, res) => res.send(await fn(req.query)));
+  }
+
+  public post(name: string, fn: (body?: any) => any) {
+    this.router.post(name, async (req, res) => res.send(await fn(req.body)));
+  }
+
+  public put(name: string, fn: (body?: any) => any) {
+    this.router.put(name, async (req, res) => res.send(await fn(req.body)));
+  }
+
+  public delete(name: string, fn: (query?: any) => any) {
+    this.router.delete(name, async (req, res) => res.send(await fn(req.query)));
+  }
 }
