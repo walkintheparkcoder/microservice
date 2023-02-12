@@ -1,5 +1,4 @@
 import express from 'express';
-import helmet from 'helmet';
 
 /**
  * @class Microservice
@@ -32,7 +31,6 @@ export default class Microservice {
     const app = express();
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    app.use(helmet({ contentSecurityPolicy: false }));
 
     /**
      * Listen server on specified port.
@@ -43,13 +41,6 @@ export default class Microservice {
      * Return a new Microservice object.
      */
     return new Microservice(app);
-  }
-
-  /**
-   * @returns A new Express router for the defining route.
-   */
-  static Router(): express.Router {
-    return express.Router();
   }
 
   /**
